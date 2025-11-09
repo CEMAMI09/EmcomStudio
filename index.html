@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMCOM Design & Develop | Full-Stack Developer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 50 L35 35 L35 45 L50 45 Q65 45 65 60 Q65 75 50 75 L35 75 L35 65 L50 65 Q55 65 55 60 Q55 55 50 55 L35 55 L35 65 L20 50 Z M80 35 L65 50 L80 65' fill='none' stroke='%23a855f7' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -29,6 +30,22 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Parallax background gradients */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.06) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* Smooth scrolling */
@@ -75,6 +92,35 @@
             gap: 2.5rem;
         }
 
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -111,6 +157,16 @@
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease;
+            position: relative;
+        }
+
+        /* Alternating section backgrounds with gradients */
+        section:nth-child(even) {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.02) 0%, transparent 100%);
+        }
+
+        section:nth-child(odd) {
+            background: linear-gradient(225deg, rgba(147, 51, 234, 0.02) 0%, transparent 100%);
         }
 
         section.visible {
@@ -436,12 +492,115 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            nav .container {
+                padding: 1rem 1.5rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
             nav ul {
-                gap: 1rem;
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(13, 17, 23, 0.98);
+                backdrop-filter: blur(10px);
+                width: 250px;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-left: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                transition: right 0.3s ease;
+                height: calc(100vh - 70px);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
             }
 
             section h2 {
                 font-size: 2rem;
+            }
+
+            #about h3 {
+                font-size: 1.8rem !important;
+            }
+
+            #about p:first-of-type {
+                font-size: 1rem !important;
+            }
+
+            #about p:nth-of-type(2) {
+                font-size: 1rem !important;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+
+            .skill-card {
+                padding: 1.5rem 0.8rem;
+            }
+
+            .skill-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .tech-tags {
+                gap: 0.4rem;
+            }
+
+            .tech-tag {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .logo {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            section h2 {
+                font-size: 1.6rem;
+                margin-bottom: 2rem;
+            }
+
+            #about h3 {
+                font-size: 1.5rem !important;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -456,6 +615,125 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
+        }
+
+        .scroll-to-top:active {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Smooth hover effects for all interactive elements */
+        a, button, .skill-card, .service-card, .project-card, .testimonial-card {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Loading animation for sections */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .skill-card, .service-card, .testimonial-card, .project-card {
+            animation: fadeInScale 0.5s ease forwards;
+        }
+
+        /* Add stagger effect to grid items */
+        .skill-card:nth-child(1) { animation-delay: 0.1s; }
+        .skill-card:nth-child(2) { animation-delay: 0.2s; }
+        .skill-card:nth-child(3) { animation-delay: 0.3s; }
+        .skill-card:nth-child(4) { animation-delay: 0.4s; }
+        .skill-card:nth-child(5) { animation-delay: 0.5s; }
+        .skill-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Enhanced focus states for accessibility */
+        a:focus, button:focus, input:focus, textarea:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* Selection color */
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
     </style>
 </head>
 <body>
@@ -463,7 +741,12 @@
     <nav id="navbar">
         <div class="container">
             <div class="logo">EMCOM</div>
-            <ul>
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -515,7 +798,7 @@
 
     <!-- Projects Section -->
     <section id="projects">
-        <h2>One of Many Featured Projects</h2>
+        <h2>Featured Project</h2>
         <div class="project-card">
             <div class="project-content">
                 <h3>EVOQ Technologies</h3>
@@ -563,7 +846,7 @@
                 <div class="testimonial-author">
                     <div class="author-avatar">JS</div>
                     <div class="author-info">
-                        <h4>Daniel Morales</h4>
+                        <h4>John Smith</h4>
                         <p>CEO, Tech Startup</p>
                     </div>
                 </div>
@@ -573,7 +856,7 @@
                 <div class="testimonial-author">
                     <div class="author-avatar">SD</div>
                     <div class="author-info">
-                        <h4>Sarah Revell</h4>
+                        <h4>Sarah Davis</h4>
                         <p>Marketing Director</p>
                     </div>
                 </div>
@@ -583,7 +866,7 @@
                 <div class="testimonial-author">
                     <div class="author-avatar">MJ</div>
                     <div class="author-info">
-                        <h4>Michel Lindgren</h4>
+                        <h4>Michael Johnson</h4>
                         <p>Business Owner</p>
                     </div>
                 </div>
@@ -610,6 +893,31 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav')) {
+                mobileMenuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
         // Copy email to clipboard function
         function copyEmail(element) {
             const email = 'emcomstudio@gmail.com';
@@ -653,6 +961,26 @@
             });
         });
 
+        // Parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const parallaxElements = document.querySelectorAll('section');
+                    
+                    parallaxElements.forEach((element, index) => {
+                        const speed = 0.05;
+                        const yPos = -(scrolled * speed);
+                        element.style.transform = `translateY(${yPos}px)`;
+                    });
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
         // Section reveal on scroll
         const sections = document.querySelectorAll('section:not(#about)');
         
@@ -663,6 +991,8 @@
                 
                 if (sectionTop < windowHeight * 0.75) {
                     section.classList.add('visible');
+                    section.style.opacity = '1';
+                    section.style.transform = section.style.transform.replace(/translateY\([^)]*\)/, 'translateY(0)');
                 }
             });
         };
@@ -671,7 +1001,7 @@
         revealSection(); // Check on load
 
         // Form submission
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
+        document.getElementById('contactForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
             const name = formData.get('name');
